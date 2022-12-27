@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="/common/template.html">
+<head>
+    <meta charset="UTF-8">
+    <title>Course</title>
+    <style>
+        #course-add{
+            text-align: center;
+        }
+        .main-body{
+            margin: 10px;
+            background-color: antiquewhite;
+        }
+    </style>
+</head>
+<body layout:fragment="body">
+    <div class="main-body">
+        <div class="search">
+            <form th:action="@{/course/search}" method="get">
+                <label for="course-name">Type something to search</label>
+                <input type="text" placeholder="Search by course name..." id="course-name" name="search">
+                <button type="submit" th:text="#{button.search}"></button>
+            </form>
+        </div>
+        <div id="course-add">
+            <form th:action="@{/course/add-form}">
+                <button type="submit" th:text="#{button.add}"></button>
+            </form>
+        </div>
+        <div id="course-list">
+            <h4>List of course in system</h4>
+            <table>
+                <tr>
+                    <th>id</th>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+                <tr th:each="course: ${courses}">
+                    <td th:text="${course.id}"></td>
+                    <td th:text="${course.name}"></td>
+                    <td>
+                        <a th:href="@{'/course/edit-form?id=' + ${course.id}}" th:text="#{button.edit}"></a>
+                        <a th:href="@{'/course/delete/' + ${course.id}}" th:text="#{button.del}"></a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

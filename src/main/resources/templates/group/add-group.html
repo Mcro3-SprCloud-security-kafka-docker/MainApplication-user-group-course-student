@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Groups</title>
+    <script th:inline="javascript">
+        var names =  /*[[${names}]]*/ 'default'
+        console.log(names);
+
+        // $('#addForm').submit(function() {
+        //     if(true){
+        //         console.log("approved")
+        //         return false;
+        //     }else {
+        //         return false;
+        //     }
+        // });
+    </script>
+    <style>
+        #actions{
+            margin: 5px;
+        }
+        #addForm{
+            border-radius: 10px;
+            border-color: dodgerblue;
+        }
+        #addForm input{
+            background-color: antiquewhite;
+            color: blueviolet;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+<div style="text-align: center">
+    <h4 th:text="#{button.add-group}"></h4>
+
+    <form id="addForm" th:action="@{'/group/add-group'}" method="post">
+        <p style="display: block; width: 100%; text-align: center">Fill out information of user to add to system</p>
+        <div>
+            <label>Group name:</label>
+            <input name="name" type="text" placeholder="Group name...">
+        </div>
+        <div id="actions">
+            <button type="submit" th:text="#{button.save}"></button>
+        </div>
+    </form>
+    <form th:action="@{/group/search}" method="get">
+        <button type="submit" th:text="#{button.back}"></button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<!--    <script th:inline="javascript">-->
+<!--        var usersInGroup =  /*[[${usersOfGroup}]]*/ 'default'-->
+<!--        var group =  /*[[${group}]]*/ 'default'-->
+<!--        console.log(usersInGroup);-->
+<!--        console.log(group);-->
+
+<!--        function addUser(user){-->
+<!--            console.log(user);-->
+<!--        }-->
+<!--    </script>-->
+    <style>
+        #div-parent {
+            margin-top: 5px;
+            /*border: 1px solid black;*/
+            display: flex;
+        }
+        #div-parent > div {
+            border: 1px solid red;
+            width: 50%;
+            margin: 5px;
+            /*height: 150px;*/
+        }
+
+        #userName{
+            font-weight: lighter;
+        }
+
+        #userLogin{
+            font-weight: bolder;
+        }
+        #left{
+            height: 100%;
+            text-align: center;
+        }
+        #right{
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="div-parent">
+    <div id="left">
+        <h4 style="text-align: center">Users in the group <b th:text="${group.name}"></b></h4>
+        <ul class="group-tree">
+            <li th:each="user: ${usersOfGroup}">
+                <div>
+                    <span id="userLogin" th:text="${user.userName}"></span>
+                    <span id="userName" th:text="${user.name}"></span>
+                    <a th:href="@{'/group-user/delete/' + ${group.id} + '/' + ${user.id}}" th:text="#{button.del}"></a>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div id="right">
+        <h4 style="text-align: center">Add more users to the group <b th:text="${group.name}"></b></h4>
+        <form th:action="@{/group-user/add}" method="post">
+            <input style="display: none" type="text" th:value="${group.id}" name="groupid">
+            <p disabled>Select an user to add</p>
+
+            <select id="select-add-user" name="userid">
+                <option disabled>Select an user to add</option>
+                <option th:each="user: ${usersInSystem}" th:value="${user.id}" th:text="${user.userName}" ></option>
+            </select>
+            <button type="submit" th:text="#{button.add}"></button>
+        </form>
+    </div>
+</div>
+<form style="text-align: center" th:action="@{'/group/search/'}" method="get">
+    <button type="submit" th:text="#{button.back}"></button>
+</form>
+</body>
+</html>

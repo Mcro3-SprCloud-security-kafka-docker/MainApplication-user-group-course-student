@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring boot application</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+</head>
+<body>
+    <div class="row">
+        <div class="col-12">
+            <h3>
+                <i class="fa-brands fa-java">He thong quan ly admin cho ung dung quanly nguoi dung va nhom</i>
+            </h3>
+        </div>
+        <div th:replace="/common/fragment.html :: main-menu"></div>
+        <div layout:fragment="body">
+<!--            The body in each page will be put here when we inherit the tag: layout:fragment = "body"-->
+        </div>
+        <div th:replace="/common/fragment.html :: footer"></div>
+    </div>
+</body>
+</html>

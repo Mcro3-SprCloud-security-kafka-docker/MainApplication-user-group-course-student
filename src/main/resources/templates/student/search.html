@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.thymeleaf.org"
+    layout:decorate="/common/template.html">
+<head>
+    <meta charset="UTF-8">
+    <title>Student is system</title>
+</head>
+<style>
+    .add-form{
+        text-align: center;
+    }
+    #main-layout{
+        text-align: center;
+        background-color: antiquewhite;
+        height: 1000px;
+        width: 80%;
+        padding: 0;
+        margin: 0;
+    }
+</style>
+<body layout:fragment="body">
+<div id="main-layout">
+    <div>
+        <form th:action="@{/student/search}" method="get">
+            <input type="text" placeholder="Enter student code or user name if has..." name="search">
+            <button type="submit" th:text="#{button.search}"></button>
+        </form>
+        <div class="add-form">
+            <form th:action="@{/student/add-form}" method="get">
+                <button type="submit" th:text="#{button.add}"></button>
+            </form>
+        </div>
+    </div>
+    <div class="student-list">
+        <h4>Student list in system</h4>
+        <table>
+            <tr>
+                <th>id</th>
+                <th>User name</th>
+                <th>Student code</th>
+                <th>Course and score</th>
+                <th>Actions</th>
+            </tr>
+            <tr th:each="student: ${students}">
+                <td th:text="${student.id}"></td>
+                <td th:text="${student.userName}"></td>
+                <td th:text="${student.code}"></td>
+                <td>
+                    <a th:href="@{'/student/view-course-detail?id=' + ${student.id}}">
+                       <label th:text="${#lists.size(student.scoreDTOS)}"></label> <label> scores</label>
+                    </a>
+                </td>
+                <td>
+                    <a th:href="@{'/student/edit-from-student-only?id=' + ${student.id}}" th:text="#{button.edit}"></a>
+                    <a th:href="@{'/student/view-course-detail?id=' + ${student.id}}" th:text="#{button.edit-course}"></a>
+                    <a th:href="@{'/student/delete/' + ${student.id}}" th:text="#{button.del}"></a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

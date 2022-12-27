@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Course and score</title>
+    <style>
+        #form-add{
+            text-align: center;
+        }
+        #score-input{
+            width: 100px;
+            border-radius: 5px;
+            border-color: dodgerblue;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <p>Add course with score for student <b th:text="${student.code}"></b></p>
+    <form id="form-add" th:action="@{/student/course-score-add}" method="post">
+        <input type="text" style="display: none" th:value="${student.id}" name="studentId">
+
+        <div>
+            <b>Course name: </b>
+            <select name="courseId" id="course">
+                <option value="" disabled>Pick one course to score</option>
+                <option th:each="course: ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
+            </select>
+        </div>
+
+        <div>
+                <b>Score</b>
+                <input id="score-input" type="number" min="1" max="10" placeholder="Score from 1..10" name="score">
+        </div>
+        <button type="submit" th:text="#{button.add}"></button>
+    </form>
+    <form th:action="@{'/student/view-course-detail'}" method="get">
+        <input style="display: none" type="text" th:value="${student.id}" name="id">
+        <button type="submit" th:text="#{button.back}"></button>
+    </form>
+</body>
+</html>

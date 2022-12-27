@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.thymeleaf.org"
+      layout:decorate="/common/template.html">
+<head>
+    <meta charset="UTF-8">
+    <title>Roles</title>
+</head>
+<body layout:fragment="body">
+    <h4>Config roles in system or you can get back to <a th:href="@{'/user/search'}">user's page</a></h4>
+    <form th:action="@{/role/search}" method="get">
+        <input type="text" th:value="${search}" placeholder="type role name to search" name="search">
+        <input type="number" name="page" th:value="${page}" placeholder="page index you want to get...">
+        <select th:selected="${size}" name="size" id="select"> Page size ...
+            <option value="5" disabled>Please select size...</option>
+            <option value="5" >5</option>
+            <option value="10" selected>10</option>
+            <option value="15">15</option>
+        </select>
+        <button type="submit">Search</button>
+    </form>
+    <div>
+        <form style="text-align: right" th:action="@{/role/form-add-role}"  method="get">
+            <Button type="submit" th:text="#{button.add}"></Button>
+        </form>
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>name</th>
+                <th>user name</th>
+                <th>Actions</th>
+            </tr>
+            <tr th:each="role : ${roles}">
+                <td th:text="${role.id}"></td>
+                <td th:text="${role.role}"></td>
+                <td th:text="${role.userName}"></td>
+                <td>
+                    <a th:href="@{'/role/delete/' + ${role.id}}" th:text="#{button.del}"></a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

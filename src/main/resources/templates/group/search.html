@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="/common/template.html">
+<!--<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous">-->
+<head>
+    <meta charset="UTF-8">
+    <title>Groups in system</title>
+    <script>
+
+    </script>
+    <style>
+        /*#left{*/
+        /*    !*float: left;*!*/
+        /*    background: aqua;*/
+        /*}*/
+        /*#right{*/
+        /*    margin-left: auto;*/
+        /*    margin-right: 0;*/
+        /*    background: red;*/
+        /*}*/
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        #parent{
+            margin-top: 5px;
+        }
+        .title{
+            text-align: center;
+            color: chocolate;
+            size: 20px;
+        }
+        #div-parent {
+            margin-top: 5px;
+            /*border: 1px solid black;*/
+            display: flex;
+        }
+        #div-parent > div {
+            border: 1px solid red;
+            width: 50%;
+            margin: 5px;
+            /*height: 150px;*/
+        }
+
+        #add-group{
+            margin-right: 10px;
+            text-align: right;
+        }
+        #groupName{
+            font-weight: bolder;
+        }
+        #btn-add-group{
+            background-color: dodgerblue;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        #left{
+            height: 100%;
+        }
+        #right{
+            height: 100%;
+        }
+    </style>
+</head>
+<body layout:fragment="body">
+<div id="parent">
+    <h3 class="title">Groups in system or back <a th:href="@{'/user/search'}">user's page</a></h3>
+    <form th:action="@{/group/search}" method="get">
+        <label>Search for Groups:</label>
+        <div>
+            <input type="text" placeholder="Group name to search..." name="search">
+            <button type="submit" th:text="#{button.search}"></button>
+        </div>
+    </form>
+    <form th:action="@{/group/form-add}" method="get" id="add-group">
+        <button id="btn-add-group" type="submit" th:text="#{button.add}"></button>
+    </form>
+    <div id="div-parent">
+        <div id="left">
+            <h4 style="text-align: center">Groups side</h4>
+            <ul class="group-tree">
+                <li th:each="group: ${groups}">
+                    <span id="groupName" th:text="${group.name}"></span> <span> (</span>
+                    <span th:text="${#lists.size(group.userDTOS)}"></span> <span>)</span>
+                    <a th:href="@{'/group/edit/' + ${group.id}}" th:text="#{button.edit}"></a>
+                    <a th:href="@{'/group/delete/' + ${group.id}}" th:text="#{button.del}"></a>
+<!--                    <div th:if="${group.userDTOS != null && #lists.size(group.userDTOS) > 0}">-->
+<!--                        <span "></span>-->
+<!--                        <i class="fas fa-greater-than"></i>-->
+<!--                    </div>-->
+                </li>
+            </ul>
+        </div>
+<!--        <div id="right">-->
+<!--            <p>Hello from right div</p>-->
+<!--        </div>-->
+    </div>
+</div>
+</body>
+</html>

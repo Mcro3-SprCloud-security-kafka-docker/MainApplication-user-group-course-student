@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>add user</title>
+</head>
+<body>
+    <form th:action="@{'/role/add'}" method="post">
+        <p style="display: block; width: 100%; text-align: center">Fill out information of user to add to system</p>
+        <div>
+            <label>Role name:</label>
+            <input name="role" type="text" placeholder="Role name">
+        </div>
+        <div>
+            <label for="user-selector">Select user's name:</label>
+            <select id="user-selector" name="userId">
+                <option value="" disabled>Please select one...</option>
+                <option th:each="user: ${users}" th:value="${user.id}" th:text="${user.userName}"
+                        th:selected="${user.id == 90}"></option>
+            </select>
+        </div>
+        <button type="submit" th:text="#{button.save}"></button>
+    </form>
+    <form th:action="@{/group/search}" method="get">
+        <button type="submit" th:text="#{button.back}"></button>
+    </form>
+</body>
+</html>

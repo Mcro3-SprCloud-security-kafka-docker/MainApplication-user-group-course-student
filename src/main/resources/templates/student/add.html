@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add student to system</title>
+</head>
+    <body>
+        <div>
+            <h4>Add a new student</h4>
+            <form th:action="@{/student/add}" method="post">
+                <div>
+                    <label for="user-code" th:text="#{lable.student-code}"></label>
+                    <input id="user-code" type="text"  placeholder="Enter student's code..." name="code">
+                    <select name="userId">
+                        <option th:each="user: ${users}" th:text="${user.userName}" th:value="${user.id}"></option>
+                    </select>
+                    <button th:text="#{button.add}"></button>
+                </div>
+            </form>
+            <button onclick="history.back()" th:text="#{button.back}"></button>
+        </div>
+    </body>
+</html>

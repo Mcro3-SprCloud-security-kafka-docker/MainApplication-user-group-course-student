@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit user</title>
+    <script>
+        function showPassFunc(){
+            var check = document.getElementById("pass");
+            if(check.type === 'password'){
+                check.type='text';
+            }else {
+                check.type= 'password'
+            }
+        }
+    </script>
+</head>
+<body>
+    <h4>Edit people name: <lable th:text="${user.name}"></lable></h4>
+    <form th:action="@{/user/update}" method="post" enctype="multipart/form-data">
+        <input type="text" style="display: none" name="id" th:value="${user.id}">
+
+        <lable>Name: </lable>
+        <input type="text" th:value="${user.name}"  name="name" placeholder="Do not leave it empty!">
+
+        <lable>User login: </lable>
+        <input type="text" th:value="${user.userName}" name="userName" placeholder="Do not leave it empty!">
+
+        <lable>User password: </lable>
+        <input id="pass" type="password" th:value="${user.password}" name="password" placeholder="Do not leave it empty!">
+        <input type="checkbox" th:text="'show password'" th:onclick="showPassFunc()">
+        <lable>User birthdate: </lable>
+        <input type="text" th:value="${user.birthDate}" name="birthDate" placeholder="Do not leave it empty!">
+
+        <lable>User avatar: </lable>
+        <img th:src="@{'/user/download-avatar?avatarName=' + ${user.avatar}}" style="width: 70px; height: 50px">
+        <input type="file"  name="file" placeholder="Do not leave it empty!">
+        <button type="submit" th:text="#{button.save}"></button>
+        <form th:action="@{/user/search}" method="get">
+            <button type="submit" th:text="#{button.back}"></button>
+        </form>
+    </form>
+</body>
+</html>

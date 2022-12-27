@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Change student score</title>
+    <style>
+        .main-body{
+            margin: 10px;
+            text-align: center;
+            background-color: burlywood;
+            border-radius: 10px;
+        }
+
+        #old-score{
+            color: black;
+            width: 200px;
+            background-color: aliceblue;
+            border-radius: 5px;
+        }
+        #new-score{
+            color: red;
+            width: 200px;
+            background-color: aliceblue;
+            border-radius: 5px;
+        }
+        .hide{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-body">
+        <div>
+            <label>Student code: </label> <b th:text="${student.code}"></b>
+        </div>
+        <div>
+            <label>Course: </label><b th:text="${student.scoreDTOS[0].courseName}"></b>
+        </div>
+        <form th:action="@{/score/update}" method="post">
+            <div>
+                <input type="text" class="hide" th:value="${student.scoreDTOS[0].id}" name="id">
+                <input type="text" name="studentId" th:value="${student.id}" class="hide">
+                <input type="text" name="courseId" th:value="${student.scoreDTOS[0].courseId}" class="hide">
+                <div class="score-change">
+                    <label for="old-score">Old score </label>
+                    <b id="old-score" th:text="${student.scoreDTOS[0].score}"></b>
+                </div>
+                <div class="score-change">
+                    <label for="new-score">New score </label>
+                    <input id="new-score" type="number" min="1" max="10" placeholder="New score goes here..." name="score">
+                </div>
+                <button type="submit" th:text="#{button.save}"></button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

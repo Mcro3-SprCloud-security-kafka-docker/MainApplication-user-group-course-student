@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Student info</title>
+    <style>
+        #main-body{
+            height: 1000px;
+            background-color: antiquewhite;
+            margin: 10px;
+            padding: 0;
+        }
+        #above{
+            text-align: center;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            background-color: burlywood;
+        }
+
+        #course{
+            border-radius: 10px;
+            background-color: aliceblue;
+        }
+        #course h3{
+            width: 100%;
+            color: chartreuse;
+        }
+
+        .add-course-score{
+            text-align: right;
+        }
+        .course-score-title
+
+    </style>
+</head>
+<body>
+    <div id="main-body">
+        <div id="above">
+            <h4>CODE: <b th:text="${student.code}"></b></h4>
+            <div>
+                <b>Is user: </b>
+                <span th:if="${student.userName != null}">True</span>
+                <span th:if="${student.userName == null}">False</span>
+                <div th:if="${student.userName != null}">
+                    <b>User name: </b>
+                    <b th:text="${student.userName}"></b>
+                </div>
+            </div>
+        </div>
+        <div id="courses">
+            <div class="add-course-score">
+                <form th:action="@{'/student/add-course-score-form/' + ${student.id}}" method="get">
+                    <button th:text="#{button.add-score}" type="submit"></button>
+                </form>
+            </div>
+            <h3 class="course-score-title">Course and Score</h3>
+            <div th:if="${maxScore != null}">
+                <b th:text="'Max grade: ' + ${maxScore.courseName} + ': ' + ${maxScore.score}"></b>
+                <div>
+                    <b th:text="'Min grade: ' + ${minScore.courseName} + ': ' + ${minScore.score}"></b>
+                </div>
+            </div>
+            <div id="search-course">
+                <form th:action="@{'/student/view-course-detail'}" method="get">
+                    <label for="course-name">Search for course</label>
+                    <input type="text" style="display: none" name="id" th:value="${student.id}">
+                    <input type="text" name="courseName" id="course-name" placeholder="Name to search...">
+                    <button type="submit" th:text="#{button.search}"></button>
+                </form>
+            </div>
+            <table>
+                <tr>
+                    <th>id</th>
+                    <th>Course name</th>
+                    <th>Score</th>
+                    <th>Actions</th>
+                </tr>
+                <tr th:each="score : ${student.scoreDTOS}">
+                    <td th:text="${score.id}"></td>
+                    <td th:text="${score.courseName}"></td>
+                    <td th:text="${score.score}"></td>
+                    <td>
+                        <a th:href="@{'/student/edit-score?scoreId=' + ${score.id} + '&studentId=' + ${student.id}}" th:text="#{button.edit}"></a>
+                        <a th:href="@{'/student/delete-score/' + ${score.id} + '/' + ${student.id}}" th:text="#{button.del}"></a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <form th:action="@{'/student/search'}" method="get">
+            <button type="submit" th:text="#{button.back}"></button>
+        </form>
+    </div>
+</body>
+</html>

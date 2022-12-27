@@ -1,0 +1,6 @@
+1 user can be a student or not, it can be only an user; (student in user can be null)
+1 student must be an user in system, it always have an id reference to an user.
+
+-project use kafka to send event to consumer (statistic-service), and based on saved statisticDTO, email-service has schedulers to calculate
+percent of functions over project get clicked by user. By the way, email-service also calculate percent of failed and
+successful email sent

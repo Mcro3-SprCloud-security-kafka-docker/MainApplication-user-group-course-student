@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.thymeleaf.org" xmlns:th="http://www.thymeleaf.org" layout:decorate="/common/template.html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #div-parent {
+            margin-top: 5px;
+            /*border: 1px solid black;*/
+            display: flex;
+        }
+        #div-parent > div {
+            border: 1px solid red;
+            width: 50%;
+            margin: 5px;
+            /*height: 150px;*/
+        }
+
+        #userName{
+            font-weight: lighter;
+        }
+
+        #userLogin{
+            font-weight: bolder;
+        }
+        #left{
+            height: 100%;
+            /*text-align: center;*/
+        }
+        #right{
+            height: 100%;
+        }
+        h3{
+            width: 100%;
+            height: 100px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body layout:fragment="body">
+<h3>Measurement in system</h3>
+<div id="div-parent">
+        <div id="left">
+            <h4 style="text-align: center">Functions clicked</h4>
+            <ul>
+                <li th:each="percent: ${percentClicks}">
+                    <div>
+<!--                        <span th:text="${percent.id}"></span>-->
+                        <span th:text="${percent.subject}"></span>
+                        <span th:text="${percent.value + '%'}"></span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div id="right">
+            <h4 style="text-align: center">Email sent</b></h4>
+            <ul>
+                <li th:each="percent: ${emailResults}">
+                    <div>
+                        <span></span>
+                        <span th:text="${percent.subject == 'S'} ? 'Success' : 'Miss'"></span>
+                        <span th:text="${percent.value + '%'}"></span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

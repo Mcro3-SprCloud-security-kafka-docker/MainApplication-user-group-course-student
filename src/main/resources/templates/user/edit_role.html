@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add roles</title>
+</head>
+<body>
+    <h3>Add role for user: <span th:text="${user.name}"></span></h3>
+    <form th:object="${user}" th:action="@{/user/edit-role}" method="post">
+        <input th:hidden="true" type="text" name="id" th:value="${user.id}">
+<!--        <input type="text" th:value="${#lists.size(user.roleDTOList)}">-->
+        <div>
+            <input type="checkbox" th:checked="${(#lists.size(user.roleDTOList) > 0 && #strings.equals(user.roleDTOList[0].role, 'ROLE_ADMIN')) || (#lists.size(user.roleDTOList) > 1 && #strings.equals(user.roleDTOList[1].role, 'ROLE_ADMIN')) || (#lists.size(user.roleDTOList) > 2 && #strings.equals(user.roleDTOList[2].role, 'ROLE_ADMIN'))}"
+                   name="roleDTOList[0].role" value ="ROLE_ADMIN"> ROLE ADMIN
+        </div>
+        <div>
+            <input type="checkbox" th:checked="${(#lists.size(user.roleDTOList) > 0 && #strings.equals(user.roleDTOList[0].role, 'ROLE_USER')) || (#lists.size(user.roleDTOList) > 1 && #strings.equals(user.roleDTOList[1].role, 'ROLE_USER')) || (#lists.size(user.roleDTOList) > 2 && #strings.equals(user.roleDTOList[2].role, 'ROLE_USER'))}"
+                   name="roleDTOList[1].role" value="ROLE_USER"> ROLE USER
+        </div>
+        <div>
+            <input type="checkbox" th:checked="${(#lists.size(user.roleDTOList) > 1 && #strings.equals(user.roleDTOList[0].role, 'ROLE_STUDENT')) || (#lists.size(user.roleDTOList) > 1 && #strings.equals(user.roleDTOList[1].role, 'ROLE_STUDENT')) || (#lists.size(user.roleDTOList) > 2 && #strings.equals(user.roleDTOList[2].role, 'ROLE_STUDENT'))}"
+                   name="roleDTOList[2].role" value="ROLE_STUDENT"> ROLE STUDENT
+        </div>
+        <button type="submit">Add</button>
+    </form>
+    <form th:action="@{/user/search}" method="get">
+        <div style="text-align: center">
+            <button th:text="#{button.home}"></button>
+        </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Student</title>
+</head>
+<body>
+    <h4>Edit information student: <b th:text="${student.code}"></b></h4>
+    <form th:action="@{/student/edit}" method="post">
+        <input type="text" style="display: none" name="id" th:value="${student.id}">
+        <input type="text" style="display: none" name="userId" th:value="${student.userId}">
+        <div>Is user: <span th:text="${student.userName} !=  null ? ('True-' + ${student.userName}) : 'False'"></span></div>
+        <label for="student-code">Course code:</label>
+        <input id="student-code" name="code" th:value="${student.code}" type="text" placeholder="Student code..." code="code">
+        <button type="submit" th:text="#{button.save}"></button>
+    </form>
+    <button onclick="history.back()" th:text="#{button.back}"></button>
+</body>
+</html>

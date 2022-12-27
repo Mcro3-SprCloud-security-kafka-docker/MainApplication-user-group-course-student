@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.thymeleaf.org"
+      layout:decorate="/common/template.html">
+<head>
+    <meta charset="UTF-8">
+    <title>User in system</title>
+</head>
+<body layout:fragment="body">
+<!--<div style="text-align: right">-->
+    <form th:action="@{/user/form/add}" method="get">
+        <button type="submit" th:text="#{button.add-user}"></button>
+    </form>
+<!--    <form th:action="@{'/role/search'}" method="get">-->
+<!--        <button type="submit" th:text="#{button.config-role}"></button>-->
+<!--    </form>-->
+<!--    <form th:action="@{'/group/search'}" method="get">-->
+<!--        <button type="submit" th:text="#{button.config-group}"></button>-->
+<!--    </form>-->
+<!--</div>-->
+
+<form th:action="@{/user/search}" method="get">
+    <input style="text-align: center" type="text" name="search" placeholder="Type any name to search...">
+    <button type="submit" th:text="#{button.search}"></button>
+</form>
+<h4>Result</h4>
+<table>
+    <tr>
+        <th>id</th>
+        <th>Full name</th>
+        <th>User login</th>
+        <th>Birth Date</th>
+        <th>Roles</th>
+        <th>Is student</th>
+        <th>Avatar Name</th>
+        <th>Avatar image</th>
+        <th>Actions</th>
+<!--        <img src="" alt="" style="width: 100px; height: 100px">-->
+    </tr>
+    <tr th:each="user: ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.userName}"></td>
+        <td th:text="${user.birthDate}"></td>
+        <td>
+            <ul>
+                <li th:each="roleDTO: ${user.roleDTOList}">
+                    <label th:text="${roleDTO.role} + ' '"></label>
+                </li>
+            </ul>
+        </td>
+        <td th:text="${user.studentDTO != null} ? 'True' : 'False'"></td>
+        <td><a th:href="@{'/user/download-avatar?avatarName=' + ${user.avatar}}" th:text="${user.avatar}"></a></td>
+        <td>
+            <img th:src="@{'/user/download-avatar?avatarName=' + ${user.avatar}}" alt="" style="width: 125px; height: 100px">
+        </td>
+        <td>
+            <a th:href="@{'/user/delete?id=' + ${user.id}}" th:text="#{button.del}"></a>
+            <a th:href="@{'/user/edit?id=' + ${user.id}}" th:text="#{button.edit}"></a>
+            <a th:href="@{'/user/form-edit-role/' + ${user.id}}" th:text="#{button.edit-role}"></a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

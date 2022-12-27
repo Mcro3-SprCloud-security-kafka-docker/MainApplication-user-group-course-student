@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>add user</title>
+</head>
+<body>
+    <form th:action="@{/user/add}" method="post" enctype="multipart/form-data">
+        <p>Fill out information of user to add to system</p>
+        <input name="name" type="text" placeholder="User name">
+        <input name="userName" type="text" placeholder="User login">
+        <input name="password" type="password" placeholder="User password">
+        <input name="birthDate" type="text" placeholder="Enter your birthdate dd/MM/yyyy">
+        <div>
+            <p>Select role for user:</p>
+            <input type="checkbox" name="roleDTOList[0].role" value="ROLE_ADMIN">Role admin
+            <input type="checkbox" name="roleDTOList[1].role" value="ROLE_USER">Role user
+            <input type="checkbox" name="roleDTOList[2].role" value="ROLE_STUDENT">Role student
+        </div>
+        <div>
+            <p>Pick an image as avatar:</p>
+            <input name="file" type="file" accept="image/*">
+            <button type="submit" th:text="#{button.save}"></button>
+        </div>
+    </form>
+</body>
+</html>

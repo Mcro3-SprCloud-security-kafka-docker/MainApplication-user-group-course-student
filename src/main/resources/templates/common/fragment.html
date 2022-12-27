@@ -1,0 +1,44 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!--Left menu-->
+<ul th:fragment="main-menu">
+    <li class="list-group-item">
+        <a th:href="@{/user/search}" th:text="#{button.home}"></a>
+    </li>
+    <li class="list-group-item">
+        <a th:href="@{/user/search}" th:text="#{button.user}"></a>
+    </li>
+    <li class="list-group-item">
+        <a th:href="@{/role/search}" th:text="#{button.config-role}"></a>
+    </li>
+    <li class="list-group-item">
+        <a th:href="@{/group/search}" th:text="#{button.config-group}"></a>
+    </li>
+    <li class="list-group-item">
+        <a th:href="@{/student/search}" th:text="#{button.config-student}"></a>
+    </li>
+    <li class="list-group-item">
+        <a th:href="@{/course/search}" th:text="#{button.config-course}"></a>
+    </li>
+    <li class="list-group-item">
+        <a th:href="@{/measure/show}" >System measurement</a>
+    </li>
+    <li class="list-group-item">
+        <h4>Choose a language:</h4>
+        <a th:href="@{'/language/lang=vi'}" th:text="#{lang.vi}"></a>
+        <a th:href="@{'/language/lang=en'}" th:text="#{lang.en}"></a>
+    </li>
+</ul>
+
+<!--Footer-->
+<ul th:fragment="footer">
+    <ul class="nav-item">
+        <a th:href="@{/user/search}" th:text="#{button.home}"></a>
+    </ul>
+    <ul class="nav-link">
+        <a th:href="@{/user/search}" th:text="#{button.contact}"></a>
+    </ul>
+    <ul class="nav-link">
+        <a th:href="@{/user/search}" th:text="#{button.about}"></a>
+    </ul>
+</ul>
