@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,7 +44,8 @@ public class UserController {
     private final String CLASS = "USER";
 
     @PostMapping(value = "/add")
-    public String addUser(@ModelAttribute UserDTO userDTO) throws Exception {
+//    @Valid will validate data of userDTO passed must match with conditions of properties inside userDTO
+    public String addUser(@ModelAttribute @Valid UserDTO userDTO) throws Exception {
         userService.addUser(userDTO);
 
         // Calling statistic-service

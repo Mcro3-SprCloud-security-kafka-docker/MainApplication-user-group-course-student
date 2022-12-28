@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,6 +14,7 @@ public class UserDTO extends BaseEntityDTO{
     private Long id;
 
     @NotBlank
+    @Size(min = 3, max = 100)
     private String name;
 
     @NotBlank
