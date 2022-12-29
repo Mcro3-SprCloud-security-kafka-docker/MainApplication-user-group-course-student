@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.thymeleaf.org"
+      layout:decorate="/common/template.html">
+<head>
+    <meta charset="UTF-8">
+    <title>Course</title>
+    <style>
+        .main-body {
+            margin: 10px;
+            background-color: antiquewhite;
+        }
+
+        .column-width{
+            width: 200px;
+        }
+        .column-width-small{
+            width: 100px;
+        }
+        .comming{
+            color: fuchsia;
+        }
+        .recent{
+            color: orange;
+        }
+        .today{
+            color: aqua;
+        }
+
+        .sent{
+            color: black;
+        }
+        .nosent{
+            color: red;
+        }
+    </style>
+</head>
+<body layout:fragment="body">
+<div class="main-body">
+    <div>
+        <h3>User has birthday within this week</h3>
+        <table>
+            <tr>
+                <th class="column-width-small">id</th>
+                <th class="column-width">Name</th>
+                <th class="column-width">Login</th>
+                <th class="column-width">Birthday</th>
+                <th class="column-width-small">Status</th>
+                <th class="column-width-small">Mail sent</th>
+            </tr>
+            <tr th:each="birthday: ${birthDayDTOs}">
+                <td th:text="${birthday.id}"></td>
+                <td th:text="${birthday.userName}"></td>
+                <td th:text="${birthday.userLogin}"></td>
+                <td th:text="${birthday.birthDate}"></td>
+                <td th:class="${birthday.status == 1} ? 'comming' : (${birthday.status == 0} ? 'today' : 'recent')"
+                    th:text="${birthday.status == 1} ? 'Comming' : (${birthday.status == 0} ? 'Today' : 'Recent')"></td>
+                <td th:class="${birthday.isMailSent} ? 'sent' : 'nosent'" th:text="${birthday.isMailSent} ? 'Sent' : 'No'"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

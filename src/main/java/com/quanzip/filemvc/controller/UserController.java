@@ -3,8 +3,10 @@ package com.quanzip.filemvc.controller;
 import com.quanzip.filemvc.client.EmailService;
 import com.quanzip.filemvc.client.StatisticService;
 import com.quanzip.filemvc.common.DateTimeUtils;
+import com.quanzip.filemvc.service.BirthDayService;
 import com.quanzip.filemvc.service.KafkaService;
 import com.quanzip.filemvc.service.UserService;
+import com.quanzip.filemvc.service.dto.BirthDayDTO;
 import com.quanzip.filemvc.service.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -26,6 +28,9 @@ public class UserController {
 
     @Autowired
     private Environment environment;
+
+    @Autowired
+    private BirthDayService birthDayService;
 
     @GetMapping(value = "/form/add")
     public String showForm(){
@@ -129,5 +134,12 @@ public class UserController {
         return "redirect:/user/search";
     }
 
+    @GetMapping(value = "/birthday")
+    public ModelAndView getUserHasBirthDayinWeek(ModelAndView modelAndView){
+        List<BirthDayDTO> birthDayDTOS = birthDayService.getAllUserHasBirthDayThisWeek();
 
+        modelAndView.addObject("birthDayDTOs", birthDayDTOS);
+        modelAndView.setViewName("/user/birth-day");
+        return  modelAndView;
+    }
 }

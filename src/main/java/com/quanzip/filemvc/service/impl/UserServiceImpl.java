@@ -24,9 +24,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.io.*;
 import java.nio.file.Files;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -206,5 +206,26 @@ public class UserServiceImpl implements UserService {
         List<UserDTO> result = findUserWhereNotIn(studentDTOsThatHasUserAlready.stream().map(studentDTO ->
                 studentDTO.getUserId()).collect(Collectors.toList()));
         return result;
+    }
+
+    @Override
+    @org.springframework.transaction.annotation.Transactional
+    public List<UserDTO> fineUserIsOnTheirBirthDay() {
+//        Get user that have birthDay within current wwek
+
+        LocalDate now = LocalDate.now();
+        LocalDate dayAtFirstDayofWeek = now.minusDays(now.getDayOfWeek().getValue() - 1);
+        int firstMonth = dayAtFirstDayofWeek.getMonthValue();
+        int firstDay = dayAtFirstDayofWeek.getDayOfMonth();
+        int firstYear = dayAtFirstDayofWeek.getYear();
+
+        LocalDate lastDayAtLastDayofWeek = dayAtFirstDayofWeek.plusDays(6);
+        int lastMonth = lastDayAtLastDayofWeek.getMonthValue();
+        int lastDay = lastDayAtLastDayofWeek.getDayOfMonth();
+        int lastYear = lastDayAtLastDayofWeek.getYear();
+
+        List<UserDTO> userDTOList = userMapper.toDtos(
+                userRepository.findPeopleHasBirthDayInWeek(firstYear, lastYear,firstMonth, lastMonth, firstDay, lastDay));
+        return userDTOList;
     }
 }

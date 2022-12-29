@@ -1,5 +1,6 @@
 package com.quanzip.filemvc.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,7 +23,12 @@ public class UserDTO extends BaseEntityDTO{
     private String password;
     private String avatar;
     private String fullAvatar;
+
+//    this format will be applied when UserDTO is passed from FRONT-END
     @DateTimeFormat(pattern = "dd/MM/yyyy")
+
+//    This annotaion will be applied when userDTO is return as body to FRONT-END
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate birthDate;
     private List<RoleDTO> roleDTOList;
     private List<GroupDTO> groupDTOS;

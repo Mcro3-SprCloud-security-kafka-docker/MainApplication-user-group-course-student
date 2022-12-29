@@ -43,11 +43,12 @@ public class KafkaServiceImpl implements KafkaService {
         statisticDTO.setClazz(clazz);
         statisticDTO.setCreateBy("quanph20");
         statisticDTO.setMessage(message);
-        statisticService.saveStatistic(statisticDTO);
+        if (statisticService != null)
+            statisticService.saveStatistic(statisticDTO);
     }
 
     @Override
-    public void sendMail(String message) {
+    public int sendMail(String message) {
         // calling email service
         MailDTO mailDTO = new MailDTO();
         mailDTO.setFromMail("quanph1998@gmail.com");
@@ -57,12 +58,16 @@ public class KafkaServiceImpl implements KafkaService {
         mailDTO.setSubject("Hello from project 3");
         mailDTO.setContent(message);
 
-        if (NetWorkUtils.checkNetworkAvailable()) emailService.sendMail(mailDTO);
-        else {
+//        return value only mean email get sent by email-service or not, not mean it get sent successfully!
+
+        if (NetWorkUtils.checkNetworkAvailable() && emailService != null) {
+            emailService.sendMail(mailDTO);
+            return 1;
+        } else {
             // network failed to connect
             mailDTO.setResult("F");
             kafkaTemplate.send("email", mailDTO);
+            return 0;
         }
-
     }
 }

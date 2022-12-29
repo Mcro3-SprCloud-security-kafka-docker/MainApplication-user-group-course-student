@@ -15,4 +15,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAllByUserName(@Param(value = "name") String name);
 
     List<User> findAllByIdNotIn(List<Long> ids);
+
+    @Query(nativeQuery = true, value = "select * from user where (YEAR(birth_date) = :fyear AND MONTH(birth_date) = :fmonth and DAY(birth_date) >= :fday)" +
+            " or (YEAR(birth_date) = :lyear and MONTH(birth_date) = :lmonth" +
+            "  and DAY(birth_date) <= :lday)")
+    List<User> findPeopleHasBirthDayInWeek(@Param(value = "fyear") int firstYear, @Param(value = "lyear") int lastYear, @Param(value = "fmonth") int firstMonth, @Param(value = "lmonth") int lastMonth, @Param("fday") int firstDay,
+                                           @Param(value = "lday") int lastDayOfWeek);
 }

@@ -27,4 +27,6 @@ public interface UserService {
     List<UserDTO> findUserWhereNotIn(List<Long> ids);
 
     List<UserDTO> findUserNotStudent();
+
+    List<UserDTO> fineUserIsOnTheirBirthDay();
 }
