@@ -9,6 +9,9 @@ import com.quanzip.filemvc.service.UserService;
 import com.quanzip.filemvc.service.dto.BirthDayDTO;
 import com.quanzip.filemvc.service.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +52,7 @@ public class UserController {
     private final String CLASS = "USER";
 
     @PostMapping(value = "/add")
+    @CacheEvict(cacheNames = "user", allEntries = true)
 //    @Valid will validate data of userDTO passed must match with conditions of properties inside userDTO
     public String addUser(@ModelAttribute @Valid UserDTO userDTO) throws Exception {
         userService.addUser(userDTO);
@@ -59,6 +63,12 @@ public class UserController {
     }
 
     @GetMapping(value = "/search")
+    // cacheNames = "user" : in memory, there is a table name: user to save data of users
+    @Cacheable(cacheNames = "user")
+//    Lan dau se luu vao memory, tu lan thu 2 se doc tu cache, se cai thien toc
+//    roc do truy van
+//    Khi user update/delete, can phai xoa xache da luu trong DB:
+//    using @CacheEvict(cacheName = "user", allEntries = true)
     public ModelAndView searchAndViewListUsers(@RequestParam(value = "search", required = false) String name, ModelAndView modelAndView){
         List<UserDTO> userDTOS = userService.searchByName(name).stream().peek(dto ->
                 {
@@ -82,6 +92,15 @@ public class UserController {
     }
 
     @GetMapping(value = "/delete")
+//    Need to delete both user and student because user can map with student so, delete cache of student is
+//    nessesary
+    @Caching(evict = {
+//            cacheNames = "user" : in memory, there is a table name: user to save data of users
+            @CacheEvict(cacheNames = "user", key = "#id") // when deleting an user by Id
+//            spring will delete user has this id in cacheMemory(ram) , not all user tai bang USER
+            ,@CacheEvict(cacheNames = "student")
+    })
+    @CacheEvict(cacheNames = "user", allEntries = true)
     public String deleteUser(@RequestParam(value = "id") Long id) throws Exception {
         userService.deleteUserById(id);
 
@@ -102,6 +121,10 @@ public class UserController {
     }
 
     @PostMapping(value = "/update")
+    @CacheEvict(cacheNames = "user", allEntries = true)
+//    @CachePut(cacheNames = "user", key = "#userDTO.id) when we use this, this function must return
+//    an userDTO for cache to update(CachePut) and spring will
+//    update the user has Id by value: #userDTO.id in param
     public String updateUser(@ModelAttribute UserDTO userDTO) throws Exception {
         userService.updateUser(userDTO);
 
@@ -112,8 +135,10 @@ public class UserController {
         return "redirect:/user/search";
     }
 
-
     @GetMapping(value = "form-edit-role/{userId}")
+//    if using cache tai cac phuong thuc get user bY Id, thi thong tin cua 1 User se duoc luu vao memory
+//    Lan query sau cho user do se nhanh hon, nhung cung can xoa cache cua user do khi no dc update/delete
+//    do vay can them @CacheEvict tai cac phuong thuc update/delete userByid.
     public ModelAndView showFormToAddRole(@PathVariable(value = "userId") Long userId,
                                           ModelAndView modelAndView) throws Exception {
         UserDTO userDTO = userService.findUserById(userId);
@@ -123,6 +148,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/edit-role")
+    @CacheEvict(allEntries = true, cacheNames = "user")
     public String addRole(@ModelAttribute UserDTO userDTO) throws Exception {
         userService.editRole(userDTO);
 

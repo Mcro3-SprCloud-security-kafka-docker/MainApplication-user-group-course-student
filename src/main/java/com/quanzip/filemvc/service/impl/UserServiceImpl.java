@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
 
         String avatarFolder = environment.getProperty("application.avatar-folder");
         MultipartFile avatarFile = userDTO.getFile();
-        boolean hasAvatar = !Objects.isNull(avatarFile);
+        boolean hasAvatar = !Objects.isNull(avatarFile) && !Objects.isNull(avatarFile.getOriginalFilename());
 //      set avatar for user
 
         String avatarName = "";

@@ -53,4 +53,15 @@ public class StudentDTO extends BaseEntityDTO{
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+    @Override
+    public String toString() {
+        return "StudentDTO{" +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", scoreDTOS=" + scoreDTOS +
+                '}';
+    }
 }

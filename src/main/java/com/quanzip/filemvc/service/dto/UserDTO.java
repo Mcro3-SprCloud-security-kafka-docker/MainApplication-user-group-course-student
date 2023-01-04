@@ -126,4 +126,17 @@ public class UserDTO extends BaseEntityDTO{
     public void setStudentDTO(StudentDTO studentDTO) {
         this.studentDTO = studentDTO;
     }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "name='" + name + '\'' +
+                ", userName='" + userName + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", birthDate=" + birthDate +
+                ", roleDTOList=" + roleDTOList +
+                ", groupDTOS=" + groupDTOS +
+                ", studentDTO=" + studentDTO +
+                '}';
+    }
 }

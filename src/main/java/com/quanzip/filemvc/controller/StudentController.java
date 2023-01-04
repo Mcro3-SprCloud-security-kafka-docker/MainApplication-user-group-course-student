@@ -8,6 +8,9 @@ import com.quanzip.filemvc.service.dto.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +51,7 @@ public class StudentController {
     private KafkaService kafkaService;
 
     @GetMapping(value = "/search")
+    @Cacheable(cacheNames = "student")
     public ModelAndView searchStudent(@RequestParam(value = "search", required = false) String search
     , ModelAndView modelAndView){
         logger.info("Getting all students...");
@@ -70,6 +74,7 @@ public class StudentController {
     }
 
     @PostMapping(value = "/add")
+    @Caching(evict = {@CacheEvict("student"), @CacheEvict("user")})
     public ModelAndView addStudent(@ModelAttribute StudentDTO studentDTO, ModelAndView modelAndView) throws Exception {
         studentService.addStudent(studentDTO);
         modelAndView.setViewName(REDIRECT_SEARCH);
@@ -87,6 +92,7 @@ public class StudentController {
     }
 
     @PostMapping(value = "/edit")
+    @CacheEvict(cacheNames = "student")
     public String updateStudent(@ModelAttribute StudentDTO studentDTO) throws Exception {
         studentService.updateStudent(studentDTO);
 
@@ -95,6 +101,7 @@ public class StudentController {
     }
 
     @GetMapping(value = "/delete/{id}")
+    @CacheEvict(cacheNames = "student")
     public String deleteStudent(@PathVariable(value = "id", required = false) Long id) throws Exception {
         studentService.deleteUserById(id);
 
@@ -148,12 +155,14 @@ public class StudentController {
     }
 
     @PostMapping(value = "/course-score-add")
+    @CacheEvict(cacheNames = "student")
     public String addCourseScore(@ModelAttribute ScoreDTO scoreDTO) throws Exception {
         scoreService.saveScore(scoreDTO);
         return REDIRECT_DETAIL + "?id=" + scoreDTO.getStudentId();
     }
 
     @GetMapping(value = "/edit-score")
+    @CacheEvict(cacheNames = "student")
     public ModelAndView editScoreOfStudent(@RequestParam(value = "scoreId", required = false) Long scoreId,
                                            @RequestParam(value = "studentId", required = false) Long studentId,
                                            ModelAndView modelAndView) throws Exception {
@@ -168,6 +177,7 @@ public class StudentController {
     }
 
     @GetMapping(value = "/delete-score/{scoreId}/{studentId}")
+    @CacheEvict(cacheNames = "student")
     public String deleteScoreOfStudent(@PathVariable(value = "scoreId", required = false) Long scoreId,
                                        @PathVariable(value = "studentId", required = false) Long studentId) throws Exception {
         scoreService.deleteByScoreId(scoreId);

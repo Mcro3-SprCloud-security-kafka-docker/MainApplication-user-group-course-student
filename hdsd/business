@@ -2,8 +2,9 @@
 1 student must be an user in system, it always have an id reference to an user.
 
 - main project using open feign to call to statistic and email-service
-+ maon project using kafka to send event to email(network failed), statistic-service when functions get clicked
-+ main project schedule to run weekly to find user that has birthdate within week.
++ man project using kafka to send event to email(network failed), statistic-service when functions get clicked
++ main project schedule to run weekly to find user that has birthdate within week.i
++ main project schedule to delete logs file which is not needed, except nearest file and current writing file.
 
 - statistic capture all kafka event from main project and save to DB with corressponse tables
 
